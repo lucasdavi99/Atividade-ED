@@ -1,3 +1,11 @@
+/*Aluno: Lucas Davi da Silva Paixão
+  Turma: ADS000302B 
+  Turno: Noite
+
+
+  Lista Encadeada
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,20 +28,21 @@ struct hardware
 
 
 
+// Função para criar uma nova lista vazia
 Lista *criarLista() {
-    Lista *novo = malloc(sizeof(Lista));
-    if (!novo) {
-        fprintf(stderr, "Erro: falha na aloca��o de mem�ria.\n");
-        return NULL;
+    Lista *novo = malloc(sizeof(Lista)); // Aloca memória para a lista
+    if (!novo) { // Verifica se a alocação falhou
+        fprintf(stderr, "Erro: falha na alocacao de memoria.\n");
+        return NULL; // Retorna NULL em caso de falha
     }
-    novo->primeiro = NULL;
-    return novo;
+    novo->primeiro = NULL; // Inicializa o ponteiro para o primeiro nó como NULL
+    return novo; // Retorna a lista vazia criada
 }
 
 void inserirElementoFim(Lista *lista, char *nome, int cdp, float preco) {
     Hardware *novo = malloc(sizeof(Hardware));
     if (!novo) {
-        fprintf(stderr, "Erro: falha na aloca��o de mem�ria.\n");
+        fprintf(stderr, "Erro: falha na alocacao de memoria.\n");
         return;
     }
     strncpy(novo->nome, nome, 49);
@@ -204,7 +213,7 @@ int main() {
     // Cria��o da lista
     Lista *lista = criarLista();
     
-    // Inser��o de elementos
+    // Insercao de elementos
     inserirElementoFim(lista, "Processador", 1, 300.0);
     inserirElementoFim(lista, "Memoria RAM", 2, 150.0);
     inserirElementoFim(lista, "Placa de Video", 3, 800.0);
@@ -214,14 +223,14 @@ int main() {
     printf("Lista de elementos:\n");
     listarElementos(lista);
     
-    // Remo��o de um elemento
+    // Remocao de um elemento
     removerElemento(lista, 2);
     
     // Listagem de elementos novamente
     printf("Lista de elementos apos remocao:\n");
     listarElementos(lista);
     
-    // Atualiza��o de um elemento
+    // Atualizacao de um elemento
     atualizarElemento(lista, 4, "Nova Placa M�e", 550.0);
     
     // Listagem de elementos novamente
