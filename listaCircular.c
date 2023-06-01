@@ -43,61 +43,46 @@ Lista *criarLista() {
 
 /*Função para inserir um elemento no final da lista*/
 void inserirElementoFim(Lista *lista, char *nome, int cdp, float preco) {
-    // Alocando memória para um novo elemento da lista
     Hardware *novo = malloc(sizeof(Hardware));
-
-    // Verificando se a alocação de memória foi bem-sucedida
     if (!novo) {
-        // Se não foi, exibe uma mensagem de erro e retorna da função
-        fprintf(stderr, "Erro: falha na alocacao de memoria.\n");
+        fprintf(stderr, "Erro: falha na aloca��o de mem�ria.\n");
         return;
     }
 
     // Copiando o nome do hardware para o campo correspondente do novo elemento
     strncpy(novo->nome, nome, 49);
 
-    // Armazenando o CDP e o preço no novo elemento
+    // Armazenando o CDP e o pre�o no novo elemento
     novo->cdp = cdp;
     novo->preco = preco;
 
-    // Definindo o próximo elemento como nulo, já que o novo elemento será o último da lista
-    novo->proximo = NULL;
-
-    // Verificando se a lista está vazia
-    if (lista->primeiro == NULL) {
-        // Se estiver, o novo elemento é definido como o primeiro da lista
-        lista->primeiro = novo;
-    } else {
-        // Se não estiver, percorre-se a lista até encontrar o último elemento
-        Hardware *atual = lista->primeiro;
-        while (atual->proximo != NULL) {
-            atual = atual->proximo;
-        }
-        // Definindo o próximo do último elemento como o novo elemento
-        atual->proximo = novo;
-    }
-
+    // Verificando se a lista est� vazia
     if (lista->primeiro == NULL) {
         lista->primeiro = novo;
         lista->ultimo = novo;
+        novo->proximo = novo;  // O �nico elemento na lista aponta para si mesmo
     } else {
-        lista->ultimo->proximo = novo;
-        lista->ultimo = novo;
+        novo->proximo = lista->primeiro;  // O novo elemento aponta para o primeiro elemento atual
+        lista->ultimo->proximo = novo;  // O �ltimo elemento aponta para o novo elemento
+        lista->ultimo = novo;  // O novo elemento � definido como o �ltimo elemento
     }
-    // Agora o último elemento sempre aponta para o primeiro, tornando a lista circular
-    lista->ultimo->proximo = lista->primeiro;
 }
 
 /*Função para listar todos os elementos*/
 void listarElementos(Lista *lista) {
+    if (lista->primeiro == NULL) {
+        printf("Lista vazia.\n");
+        return;
+    }
+
     Hardware *atual = lista->primeiro;
-    while (atual != NULL) {
+    do {
         printf("Nome: %s\n", atual->nome);
         printf("CDP: %d\n", atual->cdp);
         printf("Preco: %.2f\n", atual->preco);
         printf("\n");
         atual = atual->proximo;
-    }
+    } while (atual != lista->primeiro);
 }
 
 /*Função para remover algum elemento*/
@@ -178,11 +163,18 @@ Hardware *buscarElemento(Lista *lista, int cdp) {
 /*retorna o tamanho da lista*/
 int tamanho(Lista *lista) {
     int tamanho = 0;
+
+    if (lista->primeiro == NULL) {
+        return tamanho;
+    }
+
     Hardware *atual = lista->primeiro;
-    while (atual) {
+
+    do {
         tamanho++;
         atual = atual->proximo;
-    }
+    } while (atual != lista->primeiro);
+
     return tamanho;
 }
 
