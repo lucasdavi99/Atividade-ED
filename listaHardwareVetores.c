@@ -70,67 +70,108 @@ Lista* criarLista(){
 }
 
 
+// Função para retornar o tamanho da lista
+int tamanhoLista(Lista *lista){
+
+    // Verifica se a lista foi criada
+    if(lista == NULL){
+        printf("A lista não foi criada\n");
+        return -1;
+    }
+
+    // Retorna o número de elementos da lista
+    return lista->ID;
+}
+
 
 
 int main(){
-    Lista *lista = NULL;
-    imprimirElementos(lista);
-    
-    lista = criarLista();
-    imprimirElementos(lista);
+    int opcao = 0;
+    Lista *lista = criarLista();
+    char nome[50];
+    int CDP;
+    float preco;
+    int id;
 
-    printf("\nInserindo Processador\n");
-    inserirElemento(lista, "Processador", 1, 949.9);
-    imprimirElementos(lista);
+    while(1){
+        printf("\n--------------------------------\n");
+        printf("1 - Criar nova lista\n");
+        printf("2 - Inserir elemento\n");
+        printf("3 - Remover elemento por nome\n");
+        printf("4 - Remover elemento por ID\n");
+        printf("5 - Atualizar elemento\n");
+        printf("6 - Buscar elemento\n");
+        printf("7 - Imprimir elementos\n");
+        printf("8 - Excluir lista\n");
+        printf("9 - Verificar tamanho da lista\n");
+        printf("10 - Sair\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
 
-    printf("\nInserindo Placa de Video\n");
-    inserirElemento(lista, "Placa de Video", 10, 2259.00);
-    imprimirElementos(lista);
-    
-    printf("\nInserindo Mouse\n");
-    inserirElemento(lista, "Mouse", 11, 2599.00);
-    imprimirElementos(lista);
-
-    printf("\nInserindo Placa mae\n");
-    inserirElemento(lista, "Placa mae", 20, 899.99);
-    imprimirElementos(lista);
-
-    printf("\nInserindo SSD\n");
-    inserirElemento(lista, "SSD", 30, 124.99);
-    imprimirElementos(lista);
-
-    printf("\nRetirando Mouse\n");
-    removerElementoNome(lista, "Mouse");
-    imprimirElementos(lista);
-    
-    int busca = buscarElemento(lista, "Cooler");
-
-
-    if(busca != -1){
-        printf("Encontrou o elemento: %d\n", busca);
-        printf("Nome: %s \n", lista->elementos[busca].nome);
-        printf("CDP: %d \n", lista->elementos[busca].CDP);
-        printf("preco: %.2f \n", lista->elementos[busca].preco);
-    }else{
-        printf("Produto nao encontrado\n");
+        switch(opcao){
+            case 1:
+                lista = criarLista();
+                printf("\nLista criada com sucesso!\n");
+                break;
+            case 2:
+                printf("\nInsira o nome do hardware: ");
+                scanf("%s", nome);
+                printf("\nInsira o CDP: ");
+                scanf("%d", &CDP);
+                printf("\nInsira o preco: ");
+                scanf("%f", &preco);
+                inserirElemento(lista, nome, CDP, preco);
+                break;
+            case 3:
+                printf("\nInsira o nome do hardware a ser removido: ");
+                scanf("%s", nome);
+                removerElementoNome(lista, nome);
+                break;
+            case 4:
+                printf("\nInsira o ID do hardware a ser removido: ");
+                scanf("%d", &id);
+                removerElemento(lista, id);
+                break;
+            case 5:
+                printf("\nInsira o nome do hardware a ser atualizado: ");
+                scanf("%s", nome);
+                printf("\nInsira o novo nome: ");
+                scanf("%s", nome);
+                printf("\nInsira o novo CDP: ");
+                scanf("%d", &CDP);
+                printf("\nInsira o novo preco: ");
+                scanf("%f", &preco);
+                atualizarElemento(lista, nome, nome, CDP, preco);
+                break;
+            case 6:
+                printf("\nInsira o nome do hardware a ser buscado: ");
+                scanf("%s", nome);
+                buscarElemento(lista, nome);
+                break;
+            case 7:
+                imprimirElementos(lista);
+                break;
+            case 8:
+                excluirLista(lista);
+                printf("\nLista excluída com sucesso!\n");
+                break;
+            case 9:
+                printf("\nO tamanho da lista e: %d\n", tamanhoLista(lista));
+                break;
+            case 10:
+                printf("\nSaindo do programa...\n");
+                exit(0);
+                break;
+            default:
+                printf("\nOpcao invalida. Tente novamente.\n");
+                break;
+        }
     }
-    
-    atualizarElemento(lista, "Processador", "Watercooler", 2, 1.290);
-    imprimirElementos(lista);
 
-    removerElemento(lista, 5);
-    imprimirElementos(lista);
-
-    inserirElementoInicio(lista, "Fonte Asus", 060, 2.849);
-    imprimirElementos(lista);
-
-    inserirElementoID(lista, "MemÃ³ria XPG", 070, 700.00, 07);
-    imprimirElementos(lista);
-    
-    lista = excluirLista(lista);
-    imprimirElementos(lista);
     return 0;
 }
+
+
 
 /*Funcao responsavel por atualizar a informacoes de uma pessoa da lista, caso a mesma esteja na lista indicada*/
 int atualizarElemento(Lista *lista, char *busca, char *nome, int CDP, float preco){

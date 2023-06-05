@@ -68,6 +68,8 @@ void inserirElementoFim(Lista *lista, char *nome, int cdp, float preco) {
     }
 }
 
+
+
 /*FunÃ§Ã£o para listar todos os elementos*/
 void listarElementos(Lista *lista) {
     if (lista->primeiro == NULL) {
@@ -209,9 +211,9 @@ void atualizarElemento(Lista *lista, int cdp, char nome[], float preco) {
 }
 
 void inserirElementoID(Lista *lista, int cdp, char nome[], float preco, int indice) {
-    Hardware *novo = malloc(sizeof(Hardware)); // Aloca memÃ³ria para o novo elemento
-    if (!novo) { // Verifica se a alocaÃ§Ã£o foi bem sucedida
-        printf("Erro: falha na alocaÃ§Ã£o de memÃ³ria.\n");
+    Hardware *novo = malloc(sizeof(Hardware)); // Aloca memória para o novo elemento
+    if (!novo) { // Verifica se a alocação foi bem sucedida
+        printf("Erro: falha na alocação de memória.\n");
         return;
     }
 
@@ -221,35 +223,37 @@ void inserirElementoID(Lista *lista, int cdp, char nome[], float preco, int indi
 
     Hardware *anterior = NULL; // Inicializa ponteiros para o elemento anterior e o atual da lista
     Hardware *atual = lista->primeiro;
-    int posicao = 0; // Inicializa a variÃ¡vel que representa a posiÃ§Ã£o na lista
+    int posicao = 0; // Inicializa a variável que representa a posição na lista
 
-    while (atual != NULL && posicao != indice) { // Percorre a lista atÃ© chegar na posiÃ§Ã£o desejada ou no fim da lista
+    while (atual != NULL && posicao != indice) { // Percorre a lista até chegar na posição desejada ou no fim da lista
         anterior = atual; // Salva o elemento atual como o elemento anterior
-        atual = atual->proximo; // Vai para o prÃ³ximo elemento da lista
-        posicao++; // Incrementa a variÃ¡vel que representa a posiÃ§Ã£o
+        atual = atual->proximo; // Vai para o próximo elemento da lista
+        posicao++; // Incrementa a variável que representa a posição
     }
 
-    if (posicao != indice) { // Verifica se a posiÃ§Ã£o encontrada Ã© a desejada
+    if (posicao != indice) { // Verifica se a posição encontrada é a desejada
         printf("Erro: posicao %d fora do limite da lista.\n", indice);
-        free(novo); // Libera a memÃ³ria alocada para o novo elemento
+        free(novo); // Libera a memória alocada para o novo elemento
         return;
     }
 
-    if (anterior == NULL) { // Caso o elemento seja inserido na primeira posiÃ§Ã£o da lista
+    if (anterior == NULL) { // Caso o elemento seja inserido na primeira posição da lista
         novo->proximo = lista->primeiro;
         lista->primeiro = novo;
-    } else { // Caso o elemento seja inserido em qualquer outra posiÃ§Ã£o
+    } else { // Caso o elemento seja inserido em qualquer outra posição
         novo->proximo = atual;
         anterior->proximo = novo;
     }
 
-    printf("Hardware inserido com sucesso na posicao %d.\n", indice);
+    printf("Hardware inserido com sucesso na posição %d.\n", indice);
 }
 
 
 
+
 void menu(Lista *lista) {
-    int opcao, cdp;
+    int indice;
+	int opcao, cdp;
     char nome[50];
     float preco;
 
@@ -261,6 +265,7 @@ void menu(Lista *lista) {
         printf("4. Atualizar elemento\n");
         printf("5. Buscar elemento\n");
         printf("6. Tamanho da lista\n");
+        printf("7. Inserir elemento em posicao especifica\n");
         printf("0. Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
@@ -307,6 +312,17 @@ void menu(Lista *lista) {
                 break;
             case 6:
                 printf("Tamanho da lista: %d\n", tamanho(lista));
+                break;
+            case 7:
+                printf("Nome do hardware: ");
+                scanf("%s", nome);
+                printf("CDP: ");
+                scanf("%d", &cdp);
+                printf("Preco: ");
+                scanf("%f", &preco);
+                printf("Posicao de insercao: ");
+                scanf("%d", &indice);
+                inserirElementoID(lista, cdp, nome, preco, indice);
                 break;
             case 0:
                 printf("Saindo...\n");

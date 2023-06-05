@@ -241,58 +241,96 @@ void inserirElementoID(Lista *lista, int cdp, char nome[], float preco, int indi
 
 /*Aqui é chamada as funções*/
 int main() {
-    // Criação da lista
     Lista *lista = criarLista();
-    
-    // Insercao de elementos
-    inserirElementoFim(lista, "Processador", 1, 300.0);
-    inserirElementoFim(lista, "Memoria RAM", 2, 150.0);
-    inserirElementoFim(lista, "Placa de Video", 3, 800.0);
-    
-    
-    // Listagem de elementos
-    printf("Lista de elementos:\n");
-    listarElementos(lista);
-    
-    // Remocao de um elemento
-    removerElemento(lista, 2);
-    
-    // Listagem de elementos novamente
-    printf("Lista de elementos apos remocao:\n");
-    listarElementos(lista);
-    
-    // Atualizacao de um elemento
-    atualizarElemento(lista, 4, "Nova Placa Mae", 550.0);
-    
-    // Listagem de elementos novamente
-    printf("Lista de elementos apos atualizacao:\n");
-    listarElementos(lista);
-    
-    // Busca de um elemento
-    Hardware *elemento = buscarElemento(lista, 3);
-    if (elemento) {
-        printf("Elemento encontrado:\n");
-        printf("Nome: %s\n", elemento->nome);
-        printf("CDP: %d\n", elemento->cdp);
-        printf("Preco: %.2f\n", elemento->preco);
-    } else {
-        printf("Elemento nao encontrado.\n");
-    }
-    
-    Lista *Hardware = criarLista();
-    if (!Hardware) {
-        return 1;
-    }
+    int opcao = 0;
+    char nome[50];
+    int cdp;
+    float preco;
+    int indice;
 
-    inserirElementoID(Hardware, 1234, "Teclado", 100.0, 2);
+    do {
+        printf("\n---Menu---\n");
+        printf("1. Inserir hardware\n");
+        printf("2. Listar hardware\n");
+        printf("3. Remover hardware por CDP\n");
+        printf("4. Remover hardware por nome\n");
+        printf("5. Buscar hardware\n");
+        printf("6. Atualizar hardware\n");
+        printf("7. Inserir hardware em posicao especifica\n");
+        printf("8. Tamanho da lista\n");
+        printf("9. Excluir lista\n");
+        printf("0. Sair\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+        switch (opcao) {
+            case 1:
+                printf("Nome do hardware: ");
+                scanf("%s", nome);
+                printf("CDP: ");
+                scanf("%d", &cdp);
+                printf("Preco: ");
+                scanf("%f", &preco);
+                inserirElementoFim(lista, nome, cdp, preco);
+                break;
+            case 2:
+                listarElementos(lista);
+                break;
+            case 3:
+                printf("CDP do hardware a ser removido: ");
+                scanf("%d", &cdp);
+                removerElemento(lista, cdp);
+                break;
+            case 4:
+                printf("Nome do hardware a ser removido: ");
+                scanf("%s", nome);
+                removerElementoNome(lista, nome);
+                break;
+            case 5:
+                printf("CDP do hardware a ser buscado: ");
+                scanf("%d", &cdp);
+                Hardware *elemento = buscarElemento(lista, cdp);
+                if (elemento) {
+                    printf("Elemento encontrado:\n");
+                    printf("Nome: %s\n", elemento->nome);
+                    printf("CDP: %d\n", elemento->cdp);
+                    printf("Preco: %.2f\n", elemento->preco);
+                } else {
+                    printf("Elemento nao encontrado.\n");
+                }
+                break;
+            case 6:
+                printf("CDP do hardware a ser atualizado: ");
+                scanf("%d", &cdp);
+                printf("Nome do hardware: ");
+                scanf("%s", nome);
+                printf("Preco: ");
+                scanf("%f", &preco);
+                atualizarElemento(lista, cdp, nome, preco);
+                break;
+            case 7:
+                printf("Nome do hardware: ");
+                scanf("%s", nome);
+                printf("CDP: ");
+                scanf("%d", &cdp);
+                printf("Preco: ");
+                scanf("%f", &preco);
+                printf("Indice: ");
+                scanf("%d", &indice);
+                inserirElementoID(lista, cdp, nome, preco, indice);
+                break;
+            case 8:
+                printf("Tamanho da lista: %d\n", tamanho(lista));
+                break;
+            case 9:
+                excluirLista(lista);
+                break;
+            case 0:
+                printf("Saindo...\n");
+                break;
+            default:
+                printf("Opcao invalida!\n");
+        }
+    } while (opcao != 0);
 
-    
-    // Tamanho da lista
-    int tam = tamanho(lista);
-    printf("Tamanho da lista: %d\n", tam);
-    
-    // Exclusao da lista
-    excluirLista(lista);
-    
     return 0;
 }
